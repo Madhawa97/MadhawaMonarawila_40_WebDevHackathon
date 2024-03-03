@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { useAppDispatch } from "../app/hooks";
 import { loginUser } from "../features/auth/authSlice";
 
-export default function Auth() {
+export default function Login() {
   const dispatch = useAppDispatch();
   const {
     values,
@@ -36,7 +36,7 @@ export default function Auth() {
   return (
     <Box>
       <form onSubmit={handleSubmit}>
-        <Typography>Username</Typography>
+        <Typography>Username:</Typography>
         <TextField
           aria-label="userName"
           size="small"
@@ -48,7 +48,7 @@ export default function Auth() {
           error={touched.userName && Boolean(errors.userName)}
           helperText={touched.userName && errors.userName}
         />
-        <Typography>password</Typography>
+        <Typography>Password:</Typography>
         <TextField
           aria-label="password"
           size="small"

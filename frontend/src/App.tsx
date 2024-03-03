@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { getUserDetails, selectAuth } from "./features/auth/authSlice";
-import Auth from "./components/Auth";
+import AuthPage from "./pages/AuthPage";
 import { Box } from "@mui/material";
 
 function App() {
@@ -25,16 +25,8 @@ function App() {
         ) : null
       ) : (
         <Box
-          sx={{
-            height: "100vh",
-            maxWidth: 400,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "row",
-          }}
         >
-          <Auth />
+          <AuthPage />
         </Box>
       )}
     </div>
