@@ -16,11 +16,11 @@ const userService = {
     return user;
   },
   getRecipeByMe: async (userId: string): Promise<IRecipe[]> => {
-    const recipies = await Recipe.find({ user: userId });
+    const recipies = await Recipe.find({ user: userId }).populate({path: 'user', select: 'userName _id'});
     return recipies;
   },
   getAllRecipies: async (): Promise<IRecipe[]> => {
-    const recipies = await Recipe.find();
+    const recipies = await Recipe.find().populate({path: 'user', select: 'userName _id'});
     return recipies;
   },
   createRecipe: async (

@@ -13,5 +13,20 @@ export interface Recipe{
   instructions: string,
   timeToCookInMins: number,
   rating: number,
-  user: string
+  user: string | {
+    _id: string,
+    userName: string
+  }
+}
+
+export interface RecipeSum{
+  name: string,
+  ingredients: string,
+  instructions: string,
+  timeToCookInMins: number,
+  rating: number,
+  user: {
+    _id: string,
+    userName: string
+  }
 }

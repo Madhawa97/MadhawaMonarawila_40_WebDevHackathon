@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import { useAppDispatch } from "../app/hooks";
 import { registerUser } from "../features/auth/authSlice";
+import { Redirect } from "react-router-dom";
 
 export default function Login() {
   const [error, setError] = useState(false)
@@ -52,7 +53,8 @@ export default function Login() {
   });
 
   return (
-    <Box>
+    <Box maxWidth={"80vw"} sx={{margin: "0 auto"}}>
+      <Typography variant="h3" py={"10vh"}>Register</Typography>
       <form onSubmit={handleSubmit}>
       <Typography>First Name :</Typography>
         <TextField

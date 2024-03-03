@@ -4,11 +4,10 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import { useAppDispatch } from "../app/hooks";
 import { loginUser } from "../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 export default function Login() {
   const [error, setError] = useState(false)
-  const navigate  =useNavigate();
   const dispatch = useAppDispatch();
   const {
     values,
@@ -43,7 +42,8 @@ export default function Login() {
   });
 
   return (
-    <Box>
+    <Box maxWidth={"80vw"} sx={{margin: "0 auto"}}>
+      <Typography variant="h3" py={"10vh"}>Sign In</Typography>
       <form onSubmit={handleSubmit}>
         <Typography>Username:</Typography>
         <TextField
@@ -74,6 +74,12 @@ export default function Login() {
           {" "}
           Login{" "}
         </Button>
+        <Link to="/registerview">
+        <Button sx={{marginTop: 5}}  fullWidth color="primary" variant="contained" disabled={isSubmitting}>
+          {" "}
+          Register{" "}
+        </Button>
+        </Link>
       </form>
     </Box>
   );

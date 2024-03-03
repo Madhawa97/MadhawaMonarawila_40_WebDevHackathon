@@ -3,8 +3,6 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 import * as yup from "yup";
 import { useAppDispatch } from "../app/hooks";
-import { loginUser } from "../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateRecipe() {
@@ -74,7 +72,8 @@ export default function CreateRecipe() {
   });
 
   return (
-    <Box>
+    <Box maxWidth={"80vw"} sx={{margin: "0 auto"}}>
+      <Typography variant="h3" py={"10vh"}>Share Recipe</Typography>
       <form onSubmit={handleSubmit}>
         <Typography>Recipe name :</Typography>
         <TextField
