@@ -17,16 +17,16 @@ export default function Auth() {
     handleSubmit,
   } = useFormik({
     initialValues: {
-      email: "",
+      userName: "",
       password: "",
     },
     validationSchema: yup.object().shape({
-      email: yup.string().email("Not a valid email").required("Required"),
+      userName: yup.string().required("Required"),
       password: yup.string().required("Required"),
-    }), // form will be vaildated and display errors
+    }),
     onSubmit: async (values) => {
       let data = {
-        userName: values.email,
+        userName: values.userName,
         password: values.password,
       };
       dispatch(loginUser(data));
@@ -36,17 +36,17 @@ export default function Auth() {
   return (
     <Box>
       <form onSubmit={handleSubmit}>
-        <Typography>email</Typography>
+        <Typography>Username</Typography>
         <TextField
-          aria-label="email"
+          aria-label="userName"
           size="small"
           fullWidth
-          name="email"
-          value={values.email}
+          name="userName"
+          value={values.userName}
           onChange={handleChange}
           onBlur={handleBlur}
-          error={touched.email && Boolean(errors.email)}
-          helperText={touched.email && errors.email}
+          error={touched.userName && Boolean(errors.userName)}
+          helperText={touched.userName && errors.userName}
         />
         <Typography>password</Typography>
         <TextField
@@ -60,7 +60,7 @@ export default function Auth() {
           error={touched.password && Boolean(errors.password)}
           helperText={touched.password && errors.password}
         />
-        <Button type="submit" disabled={isSubmitting}>
+        <Button fullWidth color="primary" variant="contained" type="submit" disabled={isSubmitting}>
           {" "}
           Submit{" "}
         </Button>
