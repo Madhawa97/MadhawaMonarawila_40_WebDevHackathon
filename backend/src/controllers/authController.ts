@@ -52,7 +52,7 @@ export const loginController = async (
       });
     return;
   }
-    const { token, message } = await authService.login({userName, password});
+    const { token, message, user } = await authService.login({userName, password});
     if (!token) {
       res.status(401).json({ message });
       return;
@@ -62,7 +62,7 @@ export const loginController = async (
       maxAge: 60 * 60 * 1000, // expires in 1hr
     });
 
-    res.status(200).json({ message: "Successfully logged in" });
+    res.status(200).json({ message: "Successfully logged in", user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });

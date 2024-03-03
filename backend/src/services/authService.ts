@@ -34,7 +34,7 @@ const authService = {
   },
   login: async (
     userData: any
-  ): Promise<{ token: string | null; message?: string }> => {
+  ): Promise<{ token: string | null; message?: string; user?: Partial<IUser> }> => {
     const { userName, password } = userData;
     const user = await User.findOne({ userName });
 
@@ -55,7 +55,15 @@ const authService = {
         expiresIn: "8h",
       }
     );
-    return { token };
+
+    const userWithLessDetails = {
+      firstName: user.fristName,
+      lastName: user.lastName,
+      userName: user.userName,
+      email: user.email,
+      role: user.role
+    }
+    return { token, user: userWithLessDetails };
   },
 };
 
