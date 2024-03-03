@@ -7,12 +7,9 @@ export interface IComment extends Document {
 }
 
 const commentSchema = new mongoose.Schema({
-  name: String,
-  ingredients: String,
-  instructions: String,
-  timeToCookInMins: Number,
+  content: String,
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  rating: Number,
+  recipe: { type: Schema.Types.ObjectId, ref: "Recipe", required: true },
 });
 
 const Comment = mongoose.model<IComment>("Comment", commentSchema);

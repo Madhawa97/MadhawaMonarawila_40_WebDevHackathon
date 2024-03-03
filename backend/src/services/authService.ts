@@ -57,6 +57,7 @@ const authService = {
     );
 
     const userWithLessDetails = {
+      _id: user._id,
       firstName: user.fristName,
       lastName: user.lastName,
       userName: user.userName,

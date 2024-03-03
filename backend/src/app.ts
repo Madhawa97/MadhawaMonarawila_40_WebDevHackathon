@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser"
 import mongoose from 'mongoose';
 import cors from 'cors'
 import authRoutes from "./routes/authRoute"
+import userRoutes from "./routes/userRoute"
 
 require('dotenv').config();
 
@@ -24,6 +25,7 @@ app.use(
 mongoose.connect('mongodb://localhost:27017/webdevhack01'); 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 const port = process.env.PORT || 3010;
 app.listen(port, () => {
