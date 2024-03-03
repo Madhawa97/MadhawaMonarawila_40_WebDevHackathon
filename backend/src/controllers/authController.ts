@@ -5,17 +5,28 @@ export const registerController = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, userName, email, password } = req.body;
 
-  if (!name || !email || !password) {
-    res.status(500).json({ message: "Internal server error" });
+  if (!firstName || !lastName || !userName || !email || !password) {
+    res
+      .status(404)
+      .json({
+        message:
+          "All feilds including firstName, lastName, userName, email, and password are required",
+      });
     return;
   }
   try {
-    const registeredUser = await authService.register(name, email, password);
+    const { user, message } = await authService.register(
+      firstName,
+      lastName,
+      userName,
+      email,
+      password
+    );
 
-    if (!registeredUser) {
-      res.status(400).json({ message: "User already exists" });
+    if (!user) {
+      res.status(400).json({ message });
       return;
     }
     res.status(201).json({ message: "Registration successful" });
@@ -30,9 +41,20 @@ export const loginController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const token = await authService.login(req.body);
+    const { userName, password } = req.body;
+
+  if ( !userName || !password) {
+    res
+      .status(404)
+      .json({
+        message:
+          "All feilds ; userName and password are required",
+      });
+    return;
+  }
+    const { token, message } = await authService.login({userName, password});
     if (!token) {
-      res.status(401).json({ message: "Invalid credentials" });
+      res.status(401).json({ message });
       return;
     }
     res.cookie("token", token, {
@@ -54,8 +76,10 @@ export const logoutController = async (
   try {
     res.clearCookie("token");
     res.status(200).json({ message: "Successfully logged out" });
+    return
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
+    return
   }
 };

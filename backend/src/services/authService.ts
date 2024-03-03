@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User, { IUser } from "../models/User";
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
 
@@ -6,36 +6,46 @@ require("dotenv").config();
 
 const authService = {
   register: async (
-    name: string,
+    firstName: string,
+    lastName: string,
+    userName: string,
     email: string,
     password: string
-  ): Promise<User | null> => {
-    const user = await User.findOne({ email });
-    if (user) {
-      return null;
+  ): Promise<{ user: IUser | null; message?: string }> => {
+    const userWithUserName = await User.findOne({ userName });
+    if (userWithUserName) {
+      return { user: null, message: "Username is already taken" };
+    }
+    const userWithEmail = await User.findOne({ email });
+    if (userWithEmail) {
+      return { user: null, message: "Email is already in use" };
     }
     const newUser = new User({
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
+      userName: userName,
       email: email,
       password: await bcrypt.hash(password, 10),
       role: "user",
     });
 
     await newUser.save();
-    return newUser;
+    return { user: newUser };
   },
-  login: async (userData: any): Promise<string | null> => {
-    const { email, password } = userData;
-    const user = await User.findOne({ email });
+  login: async (
+    userData: any
+  ): Promise<{ token: string | null; message?: string }> => {
+    const { userName, password } = userData;
+    const user = await User.findOne({ userName });
 
     if (!user) {
-      return null;
+      return { token: null, message: "Username doesn't exist" };
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password); // !
 
     if (!passwordMatch) {
-      return null;
+      return { token: null, message: "Password doesn't match" };
     }
 
     const token = jwt.sign(
@@ -45,7 +55,7 @@ const authService = {
         expiresIn: "8h",
       }
     );
-    return token;
+    return { token };
   },
 };
 

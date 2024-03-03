@@ -21,11 +21,11 @@ app.use(
 )
 
 
-mongoose.connect('mongodb://localhost:27017/testdb001'); 
+mongoose.connect('mongodb://localhost:27017/webdevhack01'); 
 
 app.use('/api/auth', authRoutes);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3010;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
