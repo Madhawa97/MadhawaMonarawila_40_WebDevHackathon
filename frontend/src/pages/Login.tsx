@@ -1,11 +1,14 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
 import { useAppDispatch } from "../app/hooks";
 import { loginUser } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const [error, setError] = useState(false)
+  const navigate  =useNavigate();
   const dispatch = useAppDispatch();
   const {
     values,
@@ -29,7 +32,13 @@ export default function Login() {
         userName: values.userName,
         password: values.password,
       };
-      dispatch(loginUser(data));
+      const loginReq = await dispatch(loginUser(data));
+      if (loginReq.meta.requestStatus === 'fulfilled'){
+        console.log("Logged in successfully")
+        setError(false);
+      } else {
+        setError(true);
+      }
     },
   });
 
@@ -60,9 +69,10 @@ export default function Login() {
           error={touched.password && Boolean(errors.password)}
           helperText={touched.password && errors.password}
         />
-        <Button fullWidth color="primary" variant="contained" type="submit" disabled={isSubmitting}>
+        {error ? <Typography color={"red"}>An Error occured, Try again</Typography> : null}
+        <Button sx={{marginTop: 5}}  fullWidth color="primary" variant="contained" type="submit" disabled={isSubmitting}>
           {" "}
-          Submit{" "}
+          Login{" "}
         </Button>
       </form>
     </Box>
